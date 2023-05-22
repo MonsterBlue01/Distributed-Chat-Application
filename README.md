@@ -20,7 +20,9 @@ PastryAggr is a Java project that utilizes FreePastry to implement a system with
 │   │    └── Resources/
 │   └── test/
 │        └── Java/
-│             └── IntegrationTest.java
+│             ├── IntegrationTest.java
+│             ├── NodeTest.java
+│             └── MessageLoggerTest.java
 ├── README.md
 ├── .gitignore
 ├── pom.xml
