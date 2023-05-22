@@ -3,7 +3,8 @@ import java.util.List;
 
 public class Node {
     private String nodeId;
-    private List<String> childrenNodeIds;
+     private Node parentNode;
+     private List<String> childrenNodeIds;
 
     public Node(String nodeId) {
         this.nodeId = nodeId;
@@ -14,8 +15,17 @@ public class Node {
         return nodeId;
     }
 
-    public void addChildNodeId(String childNodeId) {
-        this.childrenNodeIds.add(childNodeId);
+    public Node getParentNode() {
+        return parentNode;
+    }
+
+    public void setParentNode(Node parentNode) {
+        this.parentNode = parentNode;
+     }
+
+    public void addChildNode(Node childNode) {
+        childNode.setParentNode(this);
+        this.childrenNodeIds.add(childNode.getNodeId());
     }
 
     public List<String> getChildrenNodeIds() {
