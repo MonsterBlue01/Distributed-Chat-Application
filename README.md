@@ -6,8 +6,6 @@ PastryAggr is a Java project that utilizes FreePastry to implement a system with
 - Log events related to publishing messages, delivering messages, and updating messages.
 - Output all node IDs in a stable manner after several rounds of updates.
 ```
-├── .github/workflows/
-│   └── java_ci.yml
 ├── lib/
 │   └── pastry.jar
 ├── src/

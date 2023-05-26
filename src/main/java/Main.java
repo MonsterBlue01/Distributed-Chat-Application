@@ -2,38 +2,51 @@ import rice.pastry.*;
 import rice.pastry.socket.*;
 import rice.pastry.standard.RandomNodeIdFactory;
 import rice.environment.Environment;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            // Create a new environment
             Environment env = new Environment();
-
-            // Use the socket pastry node factory to create a factory
             PastryNodeFactory factory = new SocketPastryNodeFactory(new RandomNodeIdFactory(env), 9001, env);
 
-            // Create N nodes
-            int N = args.length > 0 ? Integer.parseInt(args[0]) : 10; // default to 10 nodes if no argument is provided
+            int N = args.length > 0 ? Integer.parseInt(args[0]) : 10;
+            List<MyApplication> nodes = new ArrayList<>();
             for (int i = 0; i < N; i++) {
-                // Create a new pastry node
-                PastryNode node = factory.newNode();
+                PastryNode pastryNode = factory.newNode();
+                MyApplication node = new MyApplication(pastryNode);
+                pastryNode.registerApplication(node);
 
-                // Set up your application on this node
-                // You will need to define a class that extends rice.pastry.Application to handle the application logic
-                MyApplication app = new MyApplication(node);
-
-                // Register the application with the node
-                node.registerApplication(app);
-
-                // Add the node to a collection so you can use it later
-                // nodes.add(node);
-
-                // Bootstrap the node (connect it to other nodes in the network)
-                // node.boot(address);
+                // subscribe to topic "SimpleAggr"
+                // node.subscribe("SimpleAggr");
+                
+                nodes.add(node);
             }
 
-            // Now that the nodes are set up, you can use them to publish and deliver messages, handle message updates, etc.
+            // Bootstrapping and forming a tree structure.
+            // For simplicity, let's assume nodes are added sequentially and each node's parent is the previous node.
+            for (int i = 1; i < N; i++) {
+                nodes.get(i).setParentNode(nodes.get(i - 1));
+                nodes.get(i - 1).addChildNode(nodes.get(i));
+                // bootstrap the node, e.g., nodes.get(i).getPastryNode().boot(some_address);
+            }
 
+            // periodically send updates
+            new Timer().scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    // root publishes a message asking for updates
+                    // nodes.get(0).publish("SimpleAggr", "update");
+                }
+            }, 0, 5000); // starts immediately and runs every 5 seconds
+
+            // print the tree structure
+            TreePrinter treePrinter = new TreePrinter();
+            treePrinter.printTree(nodes.get(0), "");
+            
         } catch(Exception e) {
             e.printStackTrace();
         }
