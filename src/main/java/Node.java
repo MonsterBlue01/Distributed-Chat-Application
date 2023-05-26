@@ -1,34 +1,41 @@
-import java.util.ArrayList;
-import java.util.List;
+import rice.pastry.*;
+import rice.pastry.messaging.Message;
+import rice.p2p.commonapi.*;
 
-public class Node {
-    private String nodeId;
-     private Node parentNode;
-     private List<String> childrenNodeIds;
+public class MyApplication extends Application {
+    private Node node;
+    private MessageLogger messageLogger;
 
-    public Node(String nodeId) {
-        this.nodeId = nodeId;
-        this.childrenNodeIds = new ArrayList<>();
+    public MyApplication(PastryNode pastryNode) {
+        this.node = new Node(pastryNode.getNodeId().toStringFull());
+        this.endpoint = pastryNode.buildEndpoint(this, "myinstance");
+        this.messageLogger = new MessageLogger();
+        this.endpoint.register();
     }
 
-    public String getNodeId() {
-        return nodeId;
+    public boolean forward(RouteMessage message) {
+        return true;
     }
 
-    public Node getParentNode() {
-        return parentNode;
+    public void deliver(Id id, Message message) {
+        // Log the delivery of the message
+        messageLogger.logDelivery(this.node.getNodeId(), message.toString());
+
+        // Check if the message is asking for an update
+        if (message.toString().equals("update")) {
+            // Create a new message with the NodeId and the children NodeIds
+            Message responseMessage = new Message(this.node.getNodeId(), "response",
+                this.node.getNodeId() + ", " + String.join(", ", this.node.getChildrenNodeIds()), null);
+
+            // Send the new message to the parent node
+            if (this.node.getParentNode() != null) {
+                endpoint.route(null, responseMessage, this.node.getParentNode().getNodeHandle());
+            }
+        }
     }
 
-    public void setParentNode(Node parentNode) {
-        this.parentNode = parentNode;
-     }
-
-    public void addChildNode(Node childNode) {
-        childNode.setParentNode(this);
-        this.childrenNodeIds.add(childNode.getNodeId());
-    }
-
-    public List<String> getChildrenNodeIds() {
-        return new ArrayList<>(childrenNodeIds);
+    public void update(NodeHandle handle, boolean joined) {
+        // Assume the network is static (no nodes will join or drop out halfway)
     }
 }
+
