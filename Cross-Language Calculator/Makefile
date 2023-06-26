@@ -1,21 +1,17 @@
-# Makefile for calculator program
-
-# Compiler
 CC = gcc
+CXX = g++
+CFLAGS = -Wall -Wextra
+CXXFLAGS = -Wall -Wextra
 
-# Compiler flags
-CFLAGS = -Wall -g
+.PHONY: all clean
 
-# Target executable name
-TARGET = calculator
+all: calculator_c calculator_cpp
 
-all: $(TARGET)
+calculator_c: calculator.c
+	$(CC) $(CFLAGS) -o $@ $<
 
-$(TARGET): calculator.o
-	$(CC) $(CFLAGS) -o $(TARGET) calculator.o
-
-calculator.o: calculator.c
-	$(CC) $(CFLAGS) -c calculator.c
+calculator_cpp: calculator.cc
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
 clean:
-	rm -f *.o $(TARGET)
+	rm -f calculator_c calculator_cpp
