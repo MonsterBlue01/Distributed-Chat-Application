@@ -1,3 +1,52 @@
-bin/
-obj/
-packages-microsoft-prod.deb
+# Compiled class file
+*.class
+
+# Log files
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# IntelliJ project files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse project files
+.classpath
+.project
+.settings/
+.metadata/
+
+# NetBeans project files
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# Maven project files
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle project files
+.gradle/
+build/
+
+# VS Code project files
+.vscode/
