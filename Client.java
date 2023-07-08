@@ -15,15 +15,32 @@ public class Client {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
 
+            // Read username and password from user input
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter username: ");
+            String username = scanner.nextLine();
+            System.out.print("Enter password: ");
+            String password = scanner.nextLine();
+
+            // Send username and password to the server for authentication
+            out.println(username);
+            out.println(password);
+
+            String response = in.readLine();
+            if (response.equals("Login Successful")) {
+                System.out.println("You are now logged in!");
+            } else {
+                System.out.println("Login Failed");
+                return;
+            }
+
             // Start a new thread for receiving messages
             new Thread(new ReceivedMessagesHandler()).start();
 
             // Sending messages happens in the main thread
-            Scanner scanner = new Scanner(System.in);
             while (scanner.hasNextLine()) {
                 out.println(scanner.nextLine());
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }

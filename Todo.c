@@ -1,1 +1,1 @@
-// Modify Client.java and Server.hava according to User.java.
+// Should we move to the next file or try to solve password storage?
