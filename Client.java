@@ -39,7 +39,9 @@ public class Client {
 
             // Sending messages happens in the main thread
             while (scanner.hasNextLine()) {
-                out.println(scanner.nextLine());
+                String text = scanner.nextLine();
+                Message message = new Message(username, text); // Create a new Message object
+                out.println(message.toString()); // Send the string representation of the Message
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,7 +53,7 @@ public class Client {
             try {
                 String message;
                 while ((message = in.readLine()) != null) {
-                    System.out.println("Received message: " + message);
+                    System.out.println("Received message: " + message); // This will print the string representation of the Message
                 }
             } catch (IOException e) {
                 e.printStackTrace();

@@ -70,7 +70,7 @@ public class Server {
             String input;
             try {
                 while ((input = in.readLine()) != null) {
-                    System.out.println("Received message: " + input);
+                    System.out.println("Received message: " + input); // This will print the string representation of the Message
                     broadcastMessage(input);
                 }
             } catch (IOException e) {
@@ -89,7 +89,7 @@ public class Server {
 
         public void broadcastMessage(String message) {
             for (ClientHandler client : clients) {
-                client.out.println(message);
+                client.out.println(message); // This will send the string representation of the Message to the clients
             }
         }
     }
