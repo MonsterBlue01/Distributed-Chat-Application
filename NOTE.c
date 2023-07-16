@@ -3,3 +3,5 @@
 // 3. When two users log in from different places, the one that is forced to log in first (under consideration)
 // 4. How to store the password?
 // 5. Consider switching to a SQL database
+// 6. Convert time to a more user-friendly format
+// 7. Avoid the message sent by the client (not necessary)
