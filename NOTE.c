@@ -5,3 +5,4 @@
 // 5. Consider switching to a SQL database
 // 6. Convert time to a more user-friendly format
 // 7. Avoid the message sent by the client (not necessary)
+// 8. Convert the test local connection to a connection via IP address (target to be determined)

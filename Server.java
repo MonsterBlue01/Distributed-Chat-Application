@@ -7,6 +7,7 @@ public class Server {
     private static final int PORT = 1234;
     private List<ClientHandler> clients = new ArrayList<>();
     private Database database = new Database(); // Initialize a database instance
+    private History history = new History(); // Initialize a history instance
 
     public static void main(String[] args) throws IOException {
         new Server(). startServer();
@@ -63,9 +64,11 @@ public class Server {
         public void run() {
             String input;
             try {
-                while ((input = in. readLine()) != null) {
-                    System.out.println("Received message: " + input); // This will print the string representation of the Message
-                    broadcastMessage(input);
+                while ((input = in.readLine()) != null) {
+                    System.out.println("Received message: " + input); 
+                    Message message = new Message(user.getUsername(), input); // Create a new Message object
+                    history.addMessage(message);
+                    broadcastMessage(message.toString());
                 }
             } catch (IOException e) {
                 System.out.println("Error reading from client: " + e.getMessage());

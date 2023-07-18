@@ -40,8 +40,7 @@ public class Client {
             // Sending messages happens in the main thread
             while (scanner.hasNextLine()) {
                 String text = scanner.nextLine();
-                Message message = new Message(username, text); // Create a new Message object
-                out.println(message.toString()); // Send the string representation of the Message
+                out.println(text); // Send only the text of the message
             }
         } catch (IOException e) {
             e.printStackTrace();
